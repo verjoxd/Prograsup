@@ -1,7 +1,8 @@
 #include <iostream>
 #include <time.h>
 #include <string>
-
+#include <cstdlib>
+#include <iomanip>
 #include <allegro5/allegro.h>
 #include "allegro5/allegro_image.h"
 #include <allegro5/allegro_audio.h>
@@ -350,7 +351,83 @@ int randcasa(int n, int jug){
 	}
 	return y;
 }
-
+int randcart(){
+	int x=rand()%(36-1)+1;
+	return x;
+}
+int filas(string mf[][6],string auxc,string auxd, string fil[]){
+	int aux=0,auxa=0; 
+	for (int i=0;i<6;i++){
+		for (int j=0;j<6;j++){
+			if(auxc==mf[i][j]){
+				aux=i;
+				break;
+			}
+		}
+	}
+	if(fil[aux]==auxd){
+		return auxa=1;
+	}	
+}
+void choice(int n,string personajes[],string filas[], string choices[]){
+	cout<<endl<<"Escriba correctamente su eleccion \n";
+	string ch;
+	int x;
+	for(int i=1;i<=n;i++){
+		do{
+		cout<<"Jugador "<<i<<" elija su personaje o su fila: "<<endl;
+		cin>>ch;
+		x=val(ch,personajes,filas);
+		if(x==0){
+			cout<<"Error!!\n";
+		}
+		}while(x==0);
+		choices[i-1]=ch;
+	}
+}
+void cartas(string per[],string fil[], string ch[],string mf[][6],int n){
+	int x,y,jug=0,auxa=0,auxb=0;
+	string auxc,auxd;
+	srand(time(NULL));
+	int casa=0;
+	do{
+		x=randcasa(n,jug);
+		if(x>90){
+			cout<<"!!!!!!!!!!!!!!!!!EL DIABLO!!!!!!!!!!!!!!!!!!"<<endl;
+			break;
+		}else{
+			y=randcart();
+			cout << setw( 19 ) << setfill( '-' ) << '\n' << setfill( ' ' );
+			cout<<endl;
+			cout<<"| "
+      		<< left << setw( 15 ) <<per[y-1];
+      		cout<<"|";
+			cout << setw( 19 ) << setfill( '-' ) << '\n' << setfill( ' ' )<<endl;
+			auxc=per[y-1];
+			for(int i=0;i<n;i++){
+				if(per[y-1]==ch[i]){
+					cout<<"El jugador "<<i+1<<" gano 30Bs!"<<endl;
+				}else{
+					auxd=ch[i];
+					auxb=filas(mf,auxc,auxd,fil);
+					if(auxb==1){
+						cout<<"El jugador "<<i+1<<" gano 5Bs!"<<endl;
+					}
+				}
+			}
+		}
+		jug++;
+		int h;
+		do {
+			h=0;
+			cout << "Pulse 1 y enter para continuar...";
+			cin>>h;
+		}while(h==0);
+		
+		
+	}while(casa==0);
+	
+}
 
 
 void Alasitas(){
